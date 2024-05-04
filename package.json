@@ -1,0 +1,26 @@
+{
+  "name": "zq-axios",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "version": "0.0.1",
+  "description": "Use typescript to write axios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gaspardruan/zq-axios.git"
+  },
+  "scripts": {
+    "webpack": "webpack"
+  },
+  "keywords": [],
+  "author": "gaspardruan",
+  "license": "MIT",
+  "devDependencies": {
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.4.5",
+    "webpack": "^5.91.0",
+    "webpack-cli": "^5.1.4"
+  }
+}
