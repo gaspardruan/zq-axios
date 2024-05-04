@@ -6,7 +6,6 @@
     "lib": ["ESNext", "DOM"],
     "sourceMap": true,
     "declaration": true,
-    "rootDir": "./src/",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "esModuleInterop": true,
