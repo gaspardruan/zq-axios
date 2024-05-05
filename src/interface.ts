@@ -27,9 +27,9 @@ export interface AxiosResponse {
   data: any;
   status: number;
   statusText: string;
-  headers: any;
+  headers: Record<string, string>;
   config: AxiosRequestConfig;
-  request: any;
+  request: XMLHttpRequest;
 }
 
 export interface AxiosPromise extends Promise<AxiosResponse> {}
