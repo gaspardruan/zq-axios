@@ -4,7 +4,7 @@
     ".prettierrc": "jsonc",
     ".eslintignore": "ignore"
   },
-  
+
   "eslint.validate": [
     "javascript",
     "javascriptreact",
@@ -19,10 +19,8 @@
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,
-    ".erb/dll": true,
     "release/{build,app/dist}": true,
     "node_modules": true,
-    "npm-debug.log.*": true,
     "test/**/__snapshots__": true,
     "package-lock.json": true,
     "*.{css,sass,scss}.d.ts": true
