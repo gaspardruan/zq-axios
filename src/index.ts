@@ -1,4 +1,4 @@
-import { AxiosPromise, AxiosRequestConfig, AxiosResponse } from './interface';
+import { AxiosRequestConfig, AxiosResponse } from './interface';
 import xhr from './xhr';
 import { buildURL } from './utils/url';
 import { transformRequest, transformResponse } from './utils/data';
@@ -29,7 +29,7 @@ function processConfig(config: AxiosRequestConfig): void {
   config.data = transformRequestData(config);
 }
 
-async function axios(config: AxiosRequestConfig): AxiosPromise {
+async function axios(config: AxiosRequestConfig): Promise<AxiosResponse> {
   processConfig(config);
   return xhr(config).then((res) => {
     return transformResponseData(res);

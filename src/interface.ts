@@ -31,5 +31,3 @@ export interface AxiosResponse {
   config: AxiosRequestConfig;
   request: XMLHttpRequest;
 }
-
-export interface AxiosPromise extends Promise<AxiosResponse> {}
