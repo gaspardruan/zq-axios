@@ -5,6 +5,7 @@ module.exports = {
   rules: {
     // A temporary hack related to IDE not resolving correct package.json
     'class-methods-use-this': 'off',
+    'compat/compat': 'off',
     'import/no-extraneous-dependencies': 'off',
     'lines-between-class-members': 'off',
     'import/extensions': 'off',
