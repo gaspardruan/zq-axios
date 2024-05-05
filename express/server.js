@@ -48,20 +48,8 @@ app.set('views', path.resolve(__dirname, 'views'));
 
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  res.render('index');
-});
-
-router.get('/simple', function (req, res) {
-  res.render('template', { title: 'simple' });
-});
-
-router.get('/base', function (req, res) {
-  res.render('template', { title: 'base' });
-});
-
+registerPage();
 registerSimpleRouter();
-
 registerBaseRouter();
 
 app.use(router);
@@ -70,6 +58,20 @@ const port = process.env.PORT || 8080;
 module.exports = app.listen(port, () => {
   console.log(`Server listening on http://localhost:${port}, Ctrl+C to stop`);
 });
+
+function registerPage() {
+  router.get('/', function (req, res) {
+    res.render('index');
+  });
+
+  router.get('/simple', function (req, res) {
+    res.render('template', { title: 'simple' });
+  });
+
+  router.get('/base', function (req, res) {
+    res.render('template', { title: 'base' });
+  });
+}
 
 function registerSimpleRouter() {
   router.get('/simple/get', function (req, res) {
