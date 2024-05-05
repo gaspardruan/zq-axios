@@ -1,16 +1,28 @@
 import { AxiosRequestConfig, AxiosResponse } from './interface';
 import { parseHeaders } from './utils/header';
+import { createError } from './utils/error';
 
 export default async function xhr(
   config: AxiosRequestConfig,
 ): Promise<AxiosResponse> {
-  return new Promise((resolve) => {
-    const { data = null, method = 'get', url, headers, responseType } = config;
+  return new Promise((resolve, reject) => {
+    const {
+      data = null,
+      method = 'get',
+      url,
+      headers,
+      responseType,
+      timeout,
+    } = config;
 
     const request = new XMLHttpRequest();
 
     if (responseType) {
       request.responseType = responseType;
+    }
+
+    if (timeout) {
+      request.timeout = timeout;
     }
 
     request.open(method.toUpperCase(), url, true);
@@ -24,6 +36,10 @@ export default async function xhr(
 
     request.onreadystatechange = function handleLoad() {
       if (request.readyState !== 4) {
+        return;
+      }
+
+      if (request.status === 0) {
         return;
       }
 
@@ -42,9 +58,40 @@ export default async function xhr(
         request,
       };
 
-      resolve(response);
+      handleResponse(response);
+    };
+
+    request.onerror = function handleError() {
+      reject(createError('Network Error', config, null, request));
+    };
+
+    request.ontimeout = function handleTimeout() {
+      reject(
+        createError(
+          `Timeout of ${timeout} ms exceeded`,
+          config,
+          'ECONNABORTED',
+          request,
+        ),
+      );
     };
 
     request.send(data);
+
+    function handleResponse(response: AxiosResponse) {
+      if (response.status >= 200 && response.status < 300) {
+        resolve(response);
+      } else {
+        reject(
+          createError(
+            `Request failed with status code ${response.status}`,
+            config,
+            null,
+            request,
+            response,
+          ),
+        );
+      }
+    }
   });
 }
