@@ -16,10 +16,11 @@
     "test": "jest",
     "clean": "rimraf dist",
     "lint": "eslint .",
-    "express": "node ./express/bin/www"
+    "express": "node express/server.js"
   },
   "prettier": {
     "singleQuote": true,
+    "semi": true,
     "overrides": [
       {
         "files": [
@@ -55,15 +56,24 @@
     "@types/jest": "^29.5.12",
     "@typescript-eslint/eslint-plugin": "^7.8.0",
     "@typescript-eslint/parser": "^7.8.0",
+    "body-parser": "^1.20.2",
+    "connect-multiparty": "^2.2.0",
+    "cookie-parser": "^1.4.6",
+    "css-loader": "^7.1.1",
     "eslint": "^8.57.0",
     "eslint-config-erb": "^4.1.0",
+    "express": "^4.19.2",
     "jest": "^29.7.0",
     "prettier": "^3.2.5",
+    "pug": "^3.0.2",
     "rimraf": "^5.0.5",
+    "style-loader": "^4.0.0",
     "ts-jest": "^29.1.2",
     "ts-loader": "^9.5.1",
     "typescript": "^5.4.5",
     "webpack": "^5.91.0",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-middleware": "^7.2.1",
+    "webpack-hot-middleware": "^2.26.1"
   }
 }

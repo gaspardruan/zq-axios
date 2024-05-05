@@ -2,4 +2,6 @@ dist
 
 node_modules
 
-express
+express/__build__
+
+express/**/*.html
