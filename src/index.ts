@@ -1,11 +1,12 @@
+import dispatchRequest from './core/dispatchRequest';
+import xhr from './core/xhr';
 import axios from './axios';
-import xhr from './xhr';
 
 export * from './interface';
 export * from './utils/url';
 export * from './utils/data';
 export * from './utils/header';
 export * from './utils/error';
-export { xhr };
+export { xhr, dispatchRequest };
 
 export default axios;

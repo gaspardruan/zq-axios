@@ -1,39 +1,19 @@
 import { AxiosRequestConfig, AxiosResponse } from './interface';
-import xhr from './xhr';
-import { buildURL } from './utils/url';
-import { transformRequest, transformResponse } from './utils/data';
-import { processHeader } from './utils/header';
+import Axios from './core/Axios';
+import { extend } from './utils/util';
 
-function transformURL(config: AxiosRequestConfig): string {
-  const { url, params } = config;
-  return buildURL(url, params);
+interface AxiosInstance extends Axios {
+  (config: AxiosRequestConfig): Promise<AxiosResponse>;
 }
 
-function transformRequestData(config: AxiosRequestConfig): any {
-  return transformRequest(config.data);
+function createInstance(): AxiosInstance {
+  const context = new Axios();
+  const instance = Axios.prototype.request.bind(context);
+
+  extend(instance, context);
+  return instance as AxiosInstance;
 }
 
-function transformHeaders(config: AxiosRequestConfig): any {
-  const { headers = {}, data } = config;
-  return processHeader(headers, data);
-}
+const axios = createInstance();
 
-function transformResponseData(res: AxiosResponse): AxiosResponse {
-  res.data = transformResponse(res.data);
-  return res;
-}
-
-function processConfig(config: AxiosRequestConfig): void {
-  config.url = transformURL(config);
-  config.headers = transformHeaders(config);
-  config.data = transformRequestData(config);
-}
-
-export default async function axios(
-  config: AxiosRequestConfig,
-): Promise<AxiosResponse> {
-  processConfig(config);
-  return xhr(config).then((res) => {
-    return transformResponseData(res);
-  });
-}
+export default axios;

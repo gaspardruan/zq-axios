@@ -1,6 +1,6 @@
-import { AxiosRequestConfig, AxiosResponse } from './interface';
-import { parseHeaders } from './utils/header';
-import { createError } from './utils/error';
+import { AxiosRequestConfig, AxiosResponse } from '../interface';
+import { parseHeaders } from '../utils/header';
+import { createError } from '../utils/error';
 
 export default async function xhr(
   config: AxiosRequestConfig,
