@@ -2,9 +2,23 @@ import { AxiosRequestConfig, AxiosResponse } from '../interface';
 import dispatchRequest from './dispatchRequest';
 
 export default class Axios {
-  request(config: AxiosRequestConfig): Promise<AxiosResponse> {
+  // request(config: AxiosRequestConfig): Promise<AxiosResponse> {
+  //   return dispatchRequest(config);
+  // }
+
+  request(url: any, _config?: any): Promise<AxiosResponse> {
+    let config = _config;
+    if (typeof url === 'string') {
+      if (!_config) {
+        config = {};
+      }
+      config.url = url;
+    } else {
+      config = url;
+    }
     return dispatchRequest(config);
   }
+
   get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
     return this.requestMethodWithoutData('get', url, config);
   }

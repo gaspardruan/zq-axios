@@ -15,7 +15,7 @@ export type Method =
   | 'PATCH';
 
 export interface AxiosRequestConfig {
-  url: string;
+  url?: string;
   method?: string;
   data?: any;
   params?: any;

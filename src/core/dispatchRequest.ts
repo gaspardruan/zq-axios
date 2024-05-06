@@ -6,7 +6,7 @@ import { processHeader } from '../utils/header';
 
 function transformURL(config: AxiosRequestConfig): string {
   const { url, params } = config;
-  return buildURL(url, params);
+  return buildURL(url!, params);
 }
 
 function transformRequestData(config: AxiosRequestConfig): any {
