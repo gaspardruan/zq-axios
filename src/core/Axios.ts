@@ -6,7 +6,7 @@ export default class Axios {
   //   return dispatchRequest(config);
   // }
 
-  request(url: any, _config?: any): Promise<AxiosResponse> {
+  request<T = any>(url: any, _config?: any): Promise<AxiosResponse<T>> {
     let config = _config;
     if (typeof url === 'string') {
       if (!_config) {
@@ -19,60 +19,72 @@ export default class Axios {
     return dispatchRequest(config);
   }
 
-  get(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    return this.requestMethodWithoutData('get', url, config);
+  get<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithoutData<T>('get', url, config);
   }
 
-  delete(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    return this.requestMethodWithoutData('delete', url, config);
+  delete<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithoutData<T>('delete', url, config);
   }
 
-  head(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    return this.requestMethodWithoutData('head', url, config);
+  head<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithoutData<T>('head', url, config);
   }
 
-  options(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse> {
-    return this.requestMethodWithoutData('options', url, config);
+  options<T = any>(
+    url: string,
+    config?: AxiosRequestConfig,
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithoutData<T>('options', url, config);
   }
 
-  private requestMethodWithoutData(
+  private requestMethodWithoutData<T = any>(
     method: string,
     url: string,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
-    return this.request({ ...config, url, method });
+  ): Promise<AxiosResponse<T>> {
+    return this.request<T>({ ...config, url, method });
   }
 
-  post(
+  post<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
-    return this.requestMethodWithData('post', url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithData<T>('post', url, data, config);
   }
 
-  put(
+  put<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
-    return this.requestMethodWithData('put', url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithData<T>('put', url, data, config);
   }
 
-  patch(
+  patch<T = any>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
-    return this.requestMethodWithData('patch', url, data, config);
+  ): Promise<AxiosResponse<T>> {
+    return this.requestMethodWithData<T>('patch', url, data, config);
   }
 
-  private requestMethodWithData(
+  private requestMethodWithData<T = any>(
     method: string,
     url: string,
     data?: any,
     config?: AxiosRequestConfig,
-  ): Promise<AxiosResponse> {
-    return this.request({ ...config, url, method, data });
+  ): Promise<AxiosResponse<T>> {
+    return this.request<T>({ ...config, url, method, data });
   }
 }

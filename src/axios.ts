@@ -3,9 +3,9 @@ import Axios from './core/Axios';
 import { extend } from './utils/util';
 
 interface AxiosInstance extends Axios {
-  (config: AxiosRequestConfig): Promise<AxiosResponse>;
+  <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>;
 
-  (url: string, config?: AxiosRequestConfig): Promise<AxiosResponse>;
+  <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
 }
 
 function createInstance(): AxiosInstance {

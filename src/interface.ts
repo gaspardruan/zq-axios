@@ -24,8 +24,8 @@ export interface AxiosRequestConfig {
   timeout?: number;
 }
 
-export interface AxiosResponse {
-  data: any;
+export interface AxiosResponse<T = any> {
+  data: T;
   status: number;
   statusText: string;
   headers: Record<string, string>;
