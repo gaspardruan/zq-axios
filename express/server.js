@@ -53,6 +53,7 @@ registerSimpleRouter();
 registerBaseRouter();
 registerErrorRouter();
 registerExtendRouter();
+registerInterceptorRouter();
 
 app.use(router);
 
@@ -80,6 +81,10 @@ function registerPage() {
 
   router.get('/extend', function (req, res) {
     res.render('template', { title: 'extend' });
+  });
+
+  router.get('/interceptor', function (req, res) {
+    res.render('template', { title: 'interceptor' });
   });
 }
 
@@ -175,5 +180,11 @@ function registerExtendRouter() {
         age: 18,
       },
     });
+  });
+}
+
+function registerInterceptorRouter() {
+  router.get('/interceptor/get', function (req, res) {
+    res.end('hello');
   });
 }

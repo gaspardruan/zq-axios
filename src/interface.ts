@@ -67,3 +67,16 @@ export interface AxiosResponse<T = any> {
 // export interface AxiosInstance extends Axios {
 //   (config: AxiosRequestConfig): Promise<AxiosResponse>;
 // }
+
+export interface ResolvedFn<T> {
+  (val: T): T | Promise<T>;
+}
+
+export interface RejectedFn {
+  (error: any): any;
+}
+
+// export interface AxiosInterceptorManager<T> {
+//   use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
+//   eject(id: number): void;
+// }

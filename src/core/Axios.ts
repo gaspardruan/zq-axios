@@ -1,10 +1,34 @@
-import { AxiosRequestConfig, AxiosResponse } from '../interface';
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  ResolvedFn,
+  RejectedFn,
+} from '../interface';
 import dispatchRequest from './dispatchRequest';
+import InterceptorManager from './interceptorManager';
+
+interface Interceptors {
+  request: InterceptorManager<AxiosRequestConfig>;
+  response: InterceptorManager<AxiosResponse>;
+}
+
+interface PromiseChain<T> {
+  resolved: ResolvedFn<T> | ((config: AxiosRequestConfig) => AxiosResponse);
+  rejected?: RejectedFn;
+}
 
 export default class Axios {
+  interceptors: Interceptors;
   // request(config: AxiosRequestConfig): Promise<AxiosResponse> {
   //   return dispatchRequest(config);
   // }
+
+  constructor() {
+    this.interceptors = {
+      request: new InterceptorManager<AxiosRequestConfig>(),
+      response: new InterceptorManager<AxiosResponse>(),
+    };
+  }
 
   request<T = any>(url: any, _config?: any): Promise<AxiosResponse<T>> {
     let config = _config;
@@ -16,7 +40,29 @@ export default class Axios {
     } else {
       config = url;
     }
-    return dispatchRequest(config);
+
+    const chain: PromiseChain<any>[] = [
+      {
+        resolved: dispatchRequest,
+        rejected: undefined,
+      },
+    ];
+
+    this.interceptors.request.forEach((interceptor) => {
+      chain.unshift(interceptor);
+    });
+
+    this.interceptors.response.forEach((interceptor) => {
+      chain.push(interceptor);
+    });
+
+    let promise = Promise.resolve(config);
+    while (chain.length) {
+      const { resolved, rejected } = chain.shift()!;
+      promise = promise.then(resolved, rejected);
+    }
+
+    return promise;
   }
 
   get<T = any>(
