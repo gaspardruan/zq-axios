@@ -1,4 +1,7 @@
+/* eslint-disable func-names */
 import { AxiosRequestConfig } from './interface';
+import { processHeader } from './utils/header';
+import { transformRequest, transformResponse } from './utils/data';
 
 const defaults: AxiosRequestConfig = {
   method: 'get',
@@ -8,6 +11,18 @@ const defaults: AxiosRequestConfig = {
       Accept: 'application/json, text/plain, */*',
     },
   },
+
+  transformRequest: [
+    function (data: any, headers: any): any {
+      processHeader(headers, data);
+      return transformRequest(data);
+    },
+  ],
+  transformResponse: [
+    function (data: any): any {
+      return transformResponse(data);
+    },
+  ],
 };
 
 const methodsNoData = ['delete', 'get', 'head', 'options'];
