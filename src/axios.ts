@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from './interface';
 import Axios from './core/Axios';
 import { extend } from './utils/util';
+import defaults from './defaults';
 
 interface AxiosInstance extends Axios {
   <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>;
@@ -8,14 +9,14 @@ interface AxiosInstance extends Axios {
   <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>>;
 }
 
-function createInstance(): AxiosInstance {
-  const context = new Axios();
+function createInstance(config: AxiosRequestConfig): AxiosInstance {
+  const context = new Axios(config);
   const instance = Axios.prototype.request.bind(context);
 
   extend(instance, context);
   return instance as AxiosInstance;
 }
 
-const axios = createInstance();
+const axios = createInstance(defaults);
 
 export default axios;

@@ -1,4 +1,6 @@
-import { isPlainObject } from './util';
+/* eslint-disable no-param-reassign */
+import { Method } from '../interface';
+import { deepMerge, isPlainObject } from './util';
 
 function normalizeHeaderName(headers: any, normalizedName: string): void {
   if (!headers) {
@@ -42,4 +44,29 @@ export function parseHeaders(headers: string): Record<string, string> {
     parsed[key] = val;
   });
   return parsed;
+}
+
+export function flattenHeaders(headers: any, method: Method): any {
+  if (!headers) {
+    return headers;
+  }
+
+  headers = deepMerge(headers.common, headers[method], headers);
+
+  const methodsToDelete = [
+    'delete',
+    'get',
+    'head',
+    'options',
+    'post',
+    'put',
+    'patch',
+    'common',
+  ];
+
+  methodsToDelete.forEach((m) => {
+    delete headers[m];
+  });
+
+  return headers;
 }

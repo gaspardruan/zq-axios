@@ -54,6 +54,7 @@ registerBaseRouter();
 registerErrorRouter();
 registerExtendRouter();
 registerInterceptorRouter();
+registerConfigRouter();
 
 app.use(router);
 
@@ -85,6 +86,10 @@ function registerPage() {
 
   router.get('/interceptor', function (req, res) {
     res.render('template', { title: 'interceptor' });
+  });
+
+  router.get('/config', function (req, res) {
+    res.render('template', { title: 'config' });
   });
 }
 
@@ -186,5 +191,11 @@ function registerExtendRouter() {
 function registerInterceptorRouter() {
   router.get('/interceptor/get', function (req, res) {
     res.end('hello');
+  });
+}
+
+function registerConfigRouter() {
+  router.post('/config/post', function (req, res) {
+    res.json(req.body);
   });
 }
