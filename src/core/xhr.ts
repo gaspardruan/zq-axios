@@ -2,6 +2,8 @@
 import { AxiosRequestConfig, AxiosResponse } from '../interface';
 import { parseHeaders } from '../utils/header';
 import { createError } from '../utils/error';
+import { isURLSameOrigin } from '../utils/url';
+import cookie from '../utils/cookie';
 
 export default async function xhr(
   config: AxiosRequestConfig,
@@ -16,6 +18,8 @@ export default async function xhr(
       timeout,
       cancelToken,
       withCredentials,
+      xsrfCookieName,
+      xsrfHeaderName,
     } = config;
 
     const request = new XMLHttpRequest();
@@ -30,6 +34,13 @@ export default async function xhr(
 
     if (withCredentials) {
       request.withCredentials = withCredentials;
+    }
+
+    if ((withCredentials || isURLSameOrigin(url!)) && xsrfCookieName) {
+      const xsrfValue = cookie.read(xsrfCookieName);
+      if (xsrfValue && xsrfHeaderName) {
+        headers[xsrfHeaderName!] = xsrfValue;
+      }
     }
 
     request.open(method.toUpperCase(), url!, true);
