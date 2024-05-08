@@ -15,6 +15,7 @@ export default async function xhr(
       responseType,
       timeout,
       cancelToken,
+      withCredentials,
     } = config;
 
     const request = new XMLHttpRequest();
@@ -25,6 +26,10 @@ export default async function xhr(
 
     if (timeout) {
       request.timeout = timeout;
+    }
+
+    if (withCredentials) {
+      request.withCredentials = withCredentials;
     }
 
     request.open(method.toUpperCase(), url!, true);
