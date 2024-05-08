@@ -29,9 +29,16 @@ function processConfig(config: AxiosRequestConfig): void {
   config.headers = flattenHeaders(config.headers, config.method!);
 }
 
+function throwIfCancellationRequested(config: AxiosRequestConfig): void {
+  if (config.cancelToken) {
+    config.cancelToken.throwIfRequested();
+  }
+}
+
 export default async function dispatchRequest(
   config: AxiosRequestConfig,
 ): Promise<AxiosResponse> {
+  throwIfCancellationRequested(config);
   processConfig(config);
   return xhr(config).then((res) => {
     return transformResponseData(res);

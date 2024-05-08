@@ -1,8 +1,16 @@
-import { AxiosRequestConfig, AxiosResponse } from './interface';
+/* eslint-disable guard-for-in */
+import {
+  AxiosRequestConfig,
+  AxiosResponse,
+  CancelTokenStatic,
+  CancelStatic,
+} from './interface';
 import Axios from './core/Axios';
-import { extend } from './utils/util';
+import { extend, extendMethod } from './utils/util';
 import defaults from './defaults';
 import mergeConfig from './core/mergeConfig';
+import CancelToken from './core/CancelToken';
+import Cancel, { isCancel } from './core/Cancel';
 
 interface AxiosInstance extends Axios {
   <T>(config: AxiosRequestConfig): Promise<AxiosResponse<T>>;
@@ -12,6 +20,10 @@ interface AxiosInstance extends Axios {
 
 interface AxiosStatic extends AxiosInstance {
   create(config?: AxiosRequestConfig): AxiosInstance;
+
+  CancelToken: CancelTokenStatic;
+  Cancel: CancelStatic;
+  isCancel: (value: any) => boolean;
 }
 
 function createInstance(config: AxiosRequestConfig): AxiosStatic {
@@ -19,6 +31,8 @@ function createInstance(config: AxiosRequestConfig): AxiosStatic {
   const instance = Axios.prototype.request.bind(context);
 
   extend(instance, context);
+  extendMethod(instance, context);
+
   return instance as AxiosStatic;
 }
 
@@ -27,5 +41,9 @@ const axios = createInstance(defaults);
 axios.create = function create(config) {
   return createInstance(mergeConfig(defaults, config));
 };
+
+axios.CancelToken = CancelToken;
+axios.Cancel = Cancel;
+axios.isCancel = isCancel;
 
 export default axios;

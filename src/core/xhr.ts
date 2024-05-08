@@ -1,3 +1,4 @@
+/* eslint-disable promise/catch-or-return */
 import { AxiosRequestConfig, AxiosResponse } from '../interface';
 import { parseHeaders } from '../utils/header';
 import { createError } from '../utils/error';
@@ -13,6 +14,7 @@ export default async function xhr(
       headers,
       responseType,
       timeout,
+      cancelToken,
     } = config;
 
     const request = new XMLHttpRequest();
@@ -75,6 +77,13 @@ export default async function xhr(
         ),
       );
     };
+
+    if (cancelToken) {
+      cancelToken.promise.then((cancel) => {
+        request.abort();
+        reject(cancel);
+      });
+    }
 
     request.send(data);
 

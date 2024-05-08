@@ -55,6 +55,7 @@ registerErrorRouter();
 registerExtendRouter();
 registerInterceptorRouter();
 registerConfigRouter();
+registerCancelRouter();
 
 app.use(router);
 
@@ -90,6 +91,10 @@ function registerPage() {
 
   router.get('/config', function (req, res) {
     res.render('template', { title: 'config' });
+  });
+
+  router.get('/cancel', function (req, res) {
+    res.render('template', { title: 'cancel' });
   });
 }
 
@@ -197,5 +202,19 @@ function registerInterceptorRouter() {
 function registerConfigRouter() {
   router.post('/config/post', function (req, res) {
     res.json(req.body);
+  });
+}
+
+function registerCancelRouter() {
+  router.get('/cancel/get', function (req, res) {
+    setTimeout(() => {
+      res.json('hello');
+    }, 1000);
+  });
+
+  router.post('/cancel/post', function (req, res) {
+    setTimeout(() => {
+      res.json(req.body);
+    }, 1000);
   });
 }

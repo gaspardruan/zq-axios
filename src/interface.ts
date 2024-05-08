@@ -30,6 +30,8 @@ export interface AxiosRequestConfig {
   transformRequest?: AxiosTransformer | AxiosTransformer[];
   transformResponse?: AxiosTransformer | AxiosTransformer[];
 
+  cancelToken?: CancelToken;
+
   [propName: string]: any;
 }
 
@@ -85,7 +87,40 @@ export interface RejectedFn {
   (error: any): any;
 }
 
-// export interface AxiosInterceptorManager<T> {
-//   use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
-//   eject(id: number): void;
-// }
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number;
+  eject(id: number): void;
+}
+
+export interface CancelToken {
+  promise: Promise<Cancel>;
+  reason?: Cancel;
+
+  throwIfRequested(): void;
+}
+
+export interface Canceler {
+  (message?: string): void;
+}
+
+export interface CancelExecutor {
+  (cancel: Canceler): void;
+}
+
+export interface CancelTokenSource {
+  token: CancelToken;
+  cancel: Canceler;
+}
+
+export interface CancelTokenStatic {
+  new (executor: CancelExecutor): CancelToken;
+  source(): CancelTokenSource;
+}
+
+export interface Cancel {
+  message?: string;
+}
+
+export interface CancelStatic {
+  new (message?: string): Cancel;
+}
