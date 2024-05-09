@@ -13,7 +13,7 @@
   },
   "scripts": {
     "webpack": "webpack",
-    "test": "jest",
+    "test": "cross-env NODE_NO_WARNINGS=1 jest",
     "clean": "rimraf dist",
     "lint": "eslint .",
     "express": "node express/server.js"
@@ -50,7 +50,11 @@
     ],
     "transform": {
       "^.+\\.ts$": "ts-jest"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/boot.ts"
+    ],
+    "testEnvironment": "jsdom"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -59,11 +63,13 @@
     "body-parser": "^1.20.2",
     "connect-multiparty": "^2.2.0",
     "cookie-parser": "^1.4.6",
+    "cross-env": "^7.0.3",
     "css-loader": "^7.1.1",
     "eslint": "^8.57.0",
     "eslint-config-erb": "^4.1.0",
     "express": "^4.19.2",
     "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "prettier": "^3.2.5",
     "pug": "^3.0.2",
     "qs": "^6.12.1",
