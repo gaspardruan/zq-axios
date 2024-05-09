@@ -31,7 +31,7 @@ function deepMergeStrategy(val1: any, val2: any): any {
 
 const fv2StrategyKeys = ['url', 'params', 'data'];
 
-const dmStrategyKeys = ['headers'];
+const dmStrategyKeys = ['headers', 'auth'];
 
 dmStrategyKeys.forEach((key) => {
   strategy[key] = deepMergeStrategy;
