@@ -1,4 +1,4 @@
-import { isDate, isPlainObject } from './util';
+import { isDate, isPlainObject, isURLSearchParams } from './util';
 
 interface URLOrigin {
   protocol: string;
@@ -16,42 +16,53 @@ function encode(val: string | number | boolean): string {
     .replace(/%5D/gi, ']');
 }
 
-export function buildURL(_url: string, params?: any): string {
+export function buildURL(
+  _url: string,
+  params?: any,
+  paramsSerializer?: (params: any) => string,
+): string {
   if (!params) {
     return _url;
   }
 
-  const parts: string[] = [];
+  let serializedParams;
 
-  Object.keys(params).forEach((_key) => {
-    let key = _key;
-    const val = params[key];
-    if (val === null || typeof val === 'undefined') {
-      return;
-    }
+  if (paramsSerializer) {
+    serializedParams = paramsSerializer(params);
+  } else if (isURLSearchParams(params)) {
+    serializedParams = params.toString();
+  } else {
+    const parts: string[] = [];
 
-    let values = [];
-    if (Array.isArray(val)) {
-      values = val;
-      key += '[]';
-    } else {
-      values = [val];
-    }
-
-    values.forEach((_v) => {
-      let v: string | number | boolean;
-      if (isDate(_v)) {
-        v = _v.toISOString();
-      } else if (isPlainObject(_v)) {
-        v = JSON.stringify(_v);
-      } else {
-        v = _v;
+    Object.keys(params).forEach((_key) => {
+      let key = _key;
+      const val = params[key];
+      if (val === null || typeof val === 'undefined') {
+        return;
       }
-      parts.push(`${encode(key)}=${encode(v)}`);
-    });
-  });
 
-  const serializedParams = parts.join('&');
+      let values = [];
+      if (Array.isArray(val)) {
+        values = val;
+        key += '[]';
+      } else {
+        values = [val];
+      }
+
+      values.forEach((_v) => {
+        let v: string | number | boolean;
+        if (isDate(_v)) {
+          v = _v.toISOString();
+        } else if (isPlainObject(_v)) {
+          v = JSON.stringify(_v);
+        } else {
+          v = _v;
+        }
+        parts.push(`${encode(key)}=${encode(v)}`);
+      });
+    });
+    serializedParams = parts.join('&');
+  }
 
   let url = _url;
   if (serializedParams) {
