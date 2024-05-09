@@ -14,6 +14,10 @@ export function isPlainObject(val: any): val is Object {
   return toString.call(val) === '[object Object]';
 }
 
+export function isFormData(val: any): val is FormData {
+  return typeof FormData !== 'undefined' && val instanceof FormData;
+}
+
 export function extend<T, U>(to: T, from: U): T & U {
   // eslint-disable-next-line guard-for-in
   for (const key in from) {
