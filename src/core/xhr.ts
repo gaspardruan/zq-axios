@@ -25,6 +25,7 @@ export default async function xhr(
       onDownloadProgress,
       onUploadProgress,
       auth,
+      validateStatus,
     } = config;
 
     const request = new XMLHttpRequest();
@@ -136,7 +137,7 @@ export default async function xhr(
     }
 
     function handleResponse(response: AxiosResponse) {
-      if (response.status >= 200 && response.status < 300) {
+      if (!validateStatus || validateStatus(response.status)) {
         resolve(response);
       } else {
         reject(
