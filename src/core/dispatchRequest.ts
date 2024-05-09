@@ -5,8 +5,8 @@ import { flattenHeaders } from '../utils/header';
 import transform from './transform';
 
 function transformURL(config: AxiosRequestConfig): string {
-  const { url, params } = config;
-  return buildURL(url!, params);
+  const { url, params, paramsSerializer } = config;
+  return buildURL(url!, params, paramsSerializer);
 }
 
 // function transformRequestData(config: AxiosRequestConfig): any {

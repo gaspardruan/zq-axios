@@ -18,6 +18,12 @@ export function isFormData(val: any): val is FormData {
   return typeof FormData !== 'undefined' && val instanceof FormData;
 }
 
+export function isURLSearchParams(val: any): val is URLSearchParams {
+  return (
+    typeof URLSearchParams !== 'undefined' && val instanceof URLSearchParams
+  );
+}
+
 export function extend<T, U>(to: T, from: U): T & U {
   // eslint-disable-next-line guard-for-in
   for (const key in from) {
