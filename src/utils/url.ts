@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-escape */
 import { isDate, isPlainObject, isURLSearchParams } from './util';
 
 interface URLOrigin {
@@ -75,6 +76,16 @@ export function buildURL(
   }
 
   return url;
+}
+
+export function isAbsoluteURL(url: string): boolean {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+}
+
+export function combineURL(baseURL: string, relativeURL?: string) {
+  return relativeURL
+    ? `${baseURL.replace(/\/+$/, '')}/${relativeURL.replace(/^\/+/, '')}`
+    : baseURL;
 }
 
 const urlParsingNode = document.createElement('a');

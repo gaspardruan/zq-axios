@@ -1,12 +1,16 @@
 import { AxiosRequestConfig, AxiosResponse } from '../interface';
 import xhr from './xhr';
-import { buildURL } from '../utils/url';
+import { buildURL, isAbsoluteURL, combineURL } from '../utils/url';
 import { flattenHeaders } from '../utils/header';
 import transform from './transform';
 
-function transformURL(config: AxiosRequestConfig): string {
-  const { url, params, paramsSerializer } = config;
-  return buildURL(url!, params, paramsSerializer);
+export function transformURL(config: AxiosRequestConfig): string {
+  const { url, params, paramsSerializer, baseURL } = config;
+  let newURL = url;
+  if (baseURL && !isAbsoluteURL(newURL!)) {
+    newURL = combineURL(baseURL, newURL!);
+  }
+  return buildURL(newURL!, params, paramsSerializer);
 }
 
 // function transformRequestData(config: AxiosRequestConfig): any {

@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 /* eslint-disable promise/catch-or-return */
 import qs from 'qs';
 import axios, { AxiosError } from '../../src/index';
@@ -105,3 +106,44 @@ instance2
   .then((res) => {
     console.log(res);
   });
+
+const instance3 = axios.create({
+  baseURL: 'https://img.mukewang.com/',
+});
+
+instance3.get('5cc01a7b0001a33718720632.jpg');
+
+instance3.get(
+  'https://img.mukewang.com/szimg/5becd5ad0001b89306000338-360-202.jpg',
+);
+
+function getA() {
+  return axios.get('/more/A');
+}
+
+function getB() {
+  return axios.get('/more/B');
+}
+
+axios.all([getA(), getB()]).then(
+  axios.spread(function (resA, resB) {
+    console.log(resA.data);
+    console.log(resB.data);
+  }),
+);
+
+axios.all([getA(), getB()]).then(([resA, resB]) => {
+  console.log(resA.data);
+  console.log(resB.data);
+});
+
+const fakeConfig = {
+  baseURL: 'https://www.baidu.com/',
+  url: '/user/12345',
+  params: {
+    idClient: 1,
+    idTest: 2,
+    testString: 'thisIsATest',
+  },
+};
+console.log(axios.getURI(fakeConfig));

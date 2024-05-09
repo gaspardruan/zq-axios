@@ -24,6 +24,12 @@ interface AxiosStatic extends AxiosInstance {
   CancelToken: CancelTokenStatic;
   Cancel: CancelStatic;
   isCancel: (value: any) => boolean;
+
+  all<T>(promises: Array<T | Promise<T>>): Promise<T[]>;
+
+  spread<T, R>(callback: (...args: T[]) => R): (arr: T[]) => R;
+
+  Axios: typeof Axios;
 }
 
 function createInstance(config: AxiosRequestConfig): AxiosStatic {
@@ -45,5 +51,17 @@ axios.create = function create(config) {
 axios.CancelToken = CancelToken;
 axios.Cancel = Cancel;
 axios.isCancel = isCancel;
+
+axios.all = function all(promises) {
+  return Promise.all(promises);
+};
+
+axios.spread = function spread(callback) {
+  return function wrap(arr) {
+    return callback(...arr);
+  };
+};
+
+axios.Axios = Axios;
 
 export default axios;
