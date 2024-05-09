@@ -1,3 +1,4 @@
+/* eslint-disable dot-notation */
 /* eslint-disable promise/catch-or-return */
 import { AxiosRequestConfig, AxiosResponse } from '../interface';
 import { parseHeaders } from '../utils/header';
@@ -23,6 +24,7 @@ export default async function xhr(
       xsrfHeaderName,
       onDownloadProgress,
       onUploadProgress,
+      auth,
     } = config;
 
     const request = new XMLHttpRequest();
@@ -109,6 +111,11 @@ export default async function xhr(
         if (xsrfValue && xsrfHeaderName) {
           headers[xsrfHeaderName!] = xsrfValue;
         }
+      }
+
+      if (auth) {
+        headers['Authorization'] =
+          `Basic ${btoa(`${auth.username}:${auth.password}`)}`;
       }
 
       Object.keys(headers).forEach((name) => {
